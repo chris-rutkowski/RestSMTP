@@ -1,6 +1,10 @@
-# Credentials for GMail
+# Example configuration for GMail
 
-The username is your e-mail, not an alias. It's recommended to enable 2FA on your account and use app password (https://support.google.com/mail/answer/185833).
+- Username is your e-mail (not an alias)
+- If you account is secured by 2FA use app password (https://support.google.com/mail/answer/185833), otherwise your account password.
+- Host=smtp.gmail.com
+- Port=587
+- SSL = true
 
 # For developers
 

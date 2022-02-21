@@ -16,17 +16,17 @@ namespace RestSMTP
 
         public Service(IOptions<Settings> settings)
         {
+            _settings = settings.Value;
+
             _client = new SmtpClient
             {
-                Host = "smtp.gmail.com",
+                Host = _settings.Host,
                 Port = 587,
-                EnableSsl = true,
+                EnableSsl = _settings.SSL,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
                 Credentials = new NetworkCredential(_sender.Address, settings.Value.Password)
             };
-
-            _settings = settings.Value;
         }
     }
 }
