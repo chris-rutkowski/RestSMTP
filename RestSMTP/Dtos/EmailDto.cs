@@ -1,8 +1,8 @@
-namespace RestSMTP
+namespace RestSMTP.Dtos
 {
-    public class Dto
+    public class EmailDto
     {
-        public string From { get; set; }
+        public string ReplyTo { get; set; }
         public string Subject { get; set; }
         public string Content { get; set; }
     }

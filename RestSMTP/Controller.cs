@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestSMTP.Dtos;
 
 namespace RestSMTP
 {
@@ -13,12 +15,22 @@ namespace RestSMTP
             _logger = logger;
         }
 
-        [HttpPost("/")]
-        public IActionResult Send(Dto dto)
+        [HttpGet("/")]
+        public ActionResult<PingDto> Ping()
         {
-            _logger.LogInformation($"Sending `{dto.Subject}` from `{dto.From}`");
+            var assembly = Assembly.GetEntryAssembly();
+            return new PingDto
+            {
+                Name = assembly.GetName().Name,
+                Version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion
+            };
+        }
 
-            return Ok(dto.From);
+        [HttpPost("/")]
+        public IActionResult Send(EmailDto dto)
+        {
+            _logger.LogInformation($"Sending `{dto.Subject}` from `{dto.ReplyTo}`");
+            return Ok(dto.ReplyTo);
         }
     }
 }

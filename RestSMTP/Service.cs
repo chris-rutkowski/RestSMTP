@@ -8,6 +8,8 @@ using Microsoft.Extensions.Options;
 
 namespace RestSMTP
 {
+    // TODO: Queue for emails being currently sent (return active task)
+    // TODO: QUeue for sent emails recently to avoid duplicated e-mails (clear after a few seconds)
     public class Service
     {
         private readonly SmtpClient _client;
