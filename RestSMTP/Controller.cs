@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using RestSMTP.Dtos;
@@ -9,10 +10,14 @@ namespace RestSMTP
     public class Controller : ControllerBase
     {
         private readonly ILogger<Controller> _logger;
+        private readonly Service _service;
 
-        public Controller(ILogger<Controller> logger)
+        public Controller(
+            ILogger<Controller> logger,
+            Service service)
         {
             _logger = logger;
+            _service = service;
         }
 
         [HttpGet("/")]
@@ -27,10 +32,21 @@ namespace RestSMTP
         }
 
         [HttpPost("/")]
-        public IActionResult Send(EmailDto dto)
+        public async Task<IActionResult> Send(EmailDto dto)
         {
-            _logger.LogInformation($"Sending `{dto.Subject}` from `{dto.ReplyTo}`");
-            return Ok(dto.ReplyTo);
+            try
+            {
+                await _service.Send(dto);
+                return NoContent();
+            }
+            catch (ValidationException)
+            {
+                return BadRequest();
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

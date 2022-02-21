@@ -17,7 +17,8 @@ namespace RestSMTP
 
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.Configure<Settings>(_configuration.GetSection("Settings"));
+            services.AddSingleton<Service>();
             services.AddControllers();
         }
 
