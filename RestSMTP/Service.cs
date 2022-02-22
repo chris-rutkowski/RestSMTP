@@ -57,8 +57,8 @@ namespace RestSMTP
                 throw new ValidationException();
 
             var message = new MailMessage();
-            message.From = new MailAddress(dto.FromEmail, dto.FromName);
-            message.To.Add(new MailAddress(dto.To));
+            message.From = new MailAddress(dto.FromEmail!, dto.FromName);
+            message.To.Add(new MailAddress(dto.To!));
             message.Subject = dto.Subject;
             message.Body = dto.Content ?? "";
             message.IsBodyHtml = dto.IsContentHTML;

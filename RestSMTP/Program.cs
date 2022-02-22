@@ -1,20 +1,21 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using RestSMTP;
 
-namespace RestSMTP
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+var builder = WebApplication.CreateBuilder(args);
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
-}
+builder.Services.AddOptions<Settings>()
+    .Bind(builder.Configuration.GetSection("Settings"))
+    .Validate(x => !string.IsNullOrWhiteSpace(x.Username), "Missing username")
+    .Validate(x => !string.IsNullOrWhiteSpace(x.Password), "Missing password")
+    .Validate(x => !string.IsNullOrWhiteSpace(x.Host), "Missing host")
+    .Validate(x => x.Port != -1, "Missing port")
+    .ValidateOnStart();
+
+builder.Services.AddSingleton<Service>();
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+
+var app = builder.Build();
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+app.Run();

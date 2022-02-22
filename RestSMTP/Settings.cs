@@ -2,10 +2,10 @@ namespace RestSMTP
 {
     public class Settings
     {
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Host { get; set; }
-        public int Port { get; set; }
-        public bool SSL { get; set; }
+        public string Username { get; set; } = String.Empty;
+        public string Password { get; set; } = String.Empty;
+        public string Host { get; set; } = String.Empty;
+        public int Port { get; set; } = -1;
+        public bool SSL { get; set; } = false;
     }
 }

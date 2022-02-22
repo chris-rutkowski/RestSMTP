@@ -26,8 +26,8 @@ namespace RestSMTP
             var assembly = Assembly.GetEntryAssembly();
             return new PingDto
             {
-                Name = assembly.GetName().Name,
-                Version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion
+                Name = assembly?.GetName().Name ?? "",
+                Version = assembly?.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion ?? ""
             };
         }
 

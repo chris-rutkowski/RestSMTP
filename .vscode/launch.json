@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/RestSMTP/bin/Debug/net5.0/RestSMTP.dll",
+            "program": "${workspaceFolder}/RestSMTP/bin/Debug/net6.0/RestSMTP.dll",
             "args": [],
             "cwd": "${workspaceFolder}/RestSMTP",
             "stopAtEntry": false,

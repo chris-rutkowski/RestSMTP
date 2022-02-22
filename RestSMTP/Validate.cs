@@ -7,7 +7,7 @@ namespace RestSMTP
     public static class Validate
     {
         // https://docs.microsoft.com/en-us/dotnet/standard/base-types/how-to-verify-that-strings-are-in-valid-email-format
-        public static bool Email(string email)
+        public static bool Email(string? email)
         {
             if (string.IsNullOrWhiteSpace(email))
                 return false;
@@ -32,7 +32,7 @@ namespace RestSMTP
             }
         }
 
-        public static bool Subject(string subject) {
+        public static bool Subject(string? subject) {
             return !string.IsNullOrWhiteSpace(subject);
         }
     }
