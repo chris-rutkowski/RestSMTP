@@ -19,6 +19,6 @@
 ## Build local image and run the container
 
 ```
-docker build -t restsmtp RestSMTP/
+docker build --pull --no-cache -t restsmtp RestSMTP/
 docker run -it --rm -p 8080:80 restsmtp
 ```
