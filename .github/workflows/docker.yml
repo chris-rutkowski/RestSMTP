@@ -10,6 +10,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: docker --version
+      - name: docker login
+        env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_TOKEN
       - name: docker build
         run: |
           docker build --pull --no-cache -t chrisrkw/restsmtp:latest RestSMTP/
