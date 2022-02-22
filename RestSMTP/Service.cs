@@ -14,23 +14,23 @@ namespace RestSMTP
     {
         private readonly SmtpClient _client;
         private readonly ILogger<Service> _logger;
-        private readonly Settings _settings;
+        private readonly SMTPSettings _smtpSettings;
 
         public Service(
             ILogger<Service> logger,
-            IOptions<Settings> settings)
+            IOptions<SMTPSettings> smtpSettings)
         {
             _logger = logger;
-            _settings = settings.Value;
+            _smtpSettings = smtpSettings.Value;
 
             _client = new SmtpClient
             {
-                Host = _settings.Host,
+                Host = _smtpSettings.Host,
                 Port = 587,
-                EnableSsl = _settings.SSL,
+                EnableSsl = _smtpSettings.SSL,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(settings.Value.Username, settings.Value.Password)
+                Credentials = new NetworkCredential(smtpSettings.Value.Username, smtpSettings.Value.Password)
             };
         }
 
