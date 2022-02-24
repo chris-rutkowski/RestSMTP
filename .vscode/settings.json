@@ -6,6 +6,7 @@
         "Dockerised",
         "Dtos",
         "restsmtp",
-        "Rutkowski"
+        "Rutkowski",
+        "subaccounts"
     ]
 }
