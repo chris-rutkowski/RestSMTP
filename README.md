@@ -2,6 +2,10 @@
 
 Dockerised .NET6 application to send e-mails via POST request (REST), developed by [Chris Rutkowski](https://rkw.ski)
 
+- MIT License
+- GitHub: https://hub.docker.com/r/chrisrkw/restsmtp
+- Docker: https://hub.docker.com/r/chrisrkw/restsmtp
+
 # Know-how
 
 ## Run the container
@@ -91,7 +95,7 @@ Send a `POST` request to `http://SERVER` with the following JSON request body ex
 
 - Send e-mails from addresses that you control (e.g. e-mails, aliases, subaccounts owned by the user provided in the container's configuration)
 - [E-mail spoofing](https://en.wikipedia.org/wiki/Email_spoofing) can be considered a cyber crime in some jurisdictions.
-- You can provide any name `FromName` and `FromEmail`, but e-mail spoofing, your e-mail may be classified as spam, your account blocked, domain blacklisted. The detailed headers of the e-mail can be used to track the original sender (e.g. user provided in the container's configuration).
+- You can provide any name `FromName` and `FromEmail`, but e-mail spoofing, your e-mail may be classified as spam, your account blocked, domain blacklisted… The detailed headers of the e-mail can be used to track the original sender (e.g. user provided in the container's configuration).
 - If you intend to use RestSMTP as a public-facing contact form to yourself, I recommend using the same e-mail address in `SMTP:Username`, `FromEmail` and `To`. Put the provided sender's e-mail in `ReplyTo`.
 
 ### Ping
