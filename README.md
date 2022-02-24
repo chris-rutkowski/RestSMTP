@@ -1,8 +1,8 @@
 # About
 
-Developed by [Chris Rutkowski](https://rkw.ski)
+Dockerised .NET6 application to send e-mails via POST request (REST).
 
-Dockerised .NET6 application to send e-mails via post request (REST).
+Developed by [Chris Rutkowski](https://rkw.ski)
 
 # Know-how
 
@@ -20,7 +20,7 @@ docker run -d -p 80:80 --name restsmtp --restart unless-stopped \
   chrisrkw/restsmtp:latest
 ```
 
-### with docker-compose:
+### with docker-compose
 
 ```
 version: '2'
@@ -28,7 +28,7 @@ version: '2'
 services:
   restsmtp:
     container_name: restsmtp
-    image: chrisrkw/restsmtp
+    image: chrisrkw/restsmtp:latest
     restart: unless-stopped
     environment:
       - "SMTP:Host=TYPE_HOST"
@@ -40,9 +40,9 @@ services:
       - 80:80
 ```
 
-### port/network hints
+### Port and network tips
 
-- if port 80 on your host is busy, use any other port e.g. `12345:80`
+- if port 80 is busy on your host, use any other port e.g. `12345:80`
 - if you use reverse proxy or other facade it may be useful to listen on localhost only `127.0.0.1:12345:80`, or skip exposing ports and use docker networks
 
 ### Configuration for GMail
@@ -59,7 +59,7 @@ Port (587) and SSL (true) are default, omit them.
 
 ### Send e-mail
 
-Send a `POST` request to `http://SERVER`, with the following JSON request body example:
+Send a `POST` request to `http://SERVER` with the following JSON request body example:
 
 ```
 {
@@ -73,7 +73,7 @@ Send a `POST` request to `http://SERVER`, with the following JSON request body e
 }
 ```
 
-#### JSON parameters:
+#### JSON parameters
 
 - `FromName` - optional, no validation
 - `FromEmail` - required, must be a valid e-mail
@@ -83,11 +83,18 @@ Send a `POST` request to `http://SERVER`, with the following JSON request body e
 - `Content` - optional, but email should have some content, shouldn't it?
 - `IsContentHTML` - `true` or `false` (default `false`)
 
-#### Responses:
+#### Responses
 
 - 204: success
 - 400: validation error
 - 500: couldn't send email (check logs)
+
+### Tips
+
+- Send e-mails from addresses that you control (e.g. e-mails, aliases, subaccounts by user provided in the container's configuration)
+- [E-mail spoofing](https://en.wikipedia.org/wiki/Email_spoofing) can be considered a cyber crime in some jurisdictions.
+- You can provide any name `FromName` and `FromEmail`, but e-mail spoofing, your e-mail may be classified as spam, your account blocked, domain blacklisted. The detailed headers of the e-mail can be used to track the original sender (e.g. user provided in the container's configuration).
+- If you intend to use RestSMTP as a public facing contact form to yourself, I recommend to use the same e-mail address in `SMTP:Username`, `FromEmail` and `To`. Put the provided sender's e-mail in `ReplyTo`.
 
 ### Ping
 
