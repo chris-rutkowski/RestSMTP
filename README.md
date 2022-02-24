@@ -3,7 +3,7 @@
 Dockerised .NET6 application to send e-mails via POST request (REST), developed by [Chris Rutkowski](https://rkw.ski)
 
 - MIT License
-- GitHub: https://hub.docker.com/r/chrisrkw/restsmtp
+- GitHub: https://github.com/chris-rutkowski/RestSMTP
 - Docker: https://hub.docker.com/r/chrisrkw/restsmtp
 
 # Know-how
