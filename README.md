@@ -1,6 +1,14 @@
-# How to run the image
+# Instruction
 
-## Using docker-compose:
+## Run the container
+
+### Using docker run
+
+```
+
+```
+
+### Using docker-compose:
 
 ```
 version: '2'
@@ -16,15 +24,24 @@ services:
       - "SMTP:SSL=..."
       - "SMTP:Username=..."
       - "SMTP:Password=..."
-    networks:
-      - restsmtp
     ports:
-      - 127.0.0.1:10000:80
+      - 80:80
+```
 
-networks:
-  restsmtp:
-    name: restsmtp
-    external: true
+# How to send an e-mail
+
+Send POST request with the payload:
+
+```
+{
+    "FromName": "",
+    "FromEmail": "",
+    "To": "",
+    "ReplyTo": "",
+    "Subject": "",
+    "Content": "",
+    "IsContentHTML": true
+}
 ```
 
 # TODOs (Accepting pull requests)
