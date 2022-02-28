@@ -98,6 +98,17 @@ Send a `POST` request to `http://SERVER` with the following JSON request body ex
 - You can provide any name `FromName` and `FromEmail`, but e-mail spoofing, your e-mail may be classified as spam, your account blocked, domain blacklisted… The detailed headers of the e-mail can be used to track the original sender (e.g. user provided in the container's configuration).
 - If you intend to use RestSMTP as a public-facing contact form to yourself, I recommend using the same e-mail address in `SMTP:Username`, `FromEmail` and `To`. Put the provided sender's e-mail in `ReplyTo`.
 
+### Ping
+
+Send a `GET` request to `http://SERVER`, you will receive the JSON response similar to the one below:
+
+```
+{
+    "name": "RestSMTP",
+    "version": "1.0.4"
+}
+```
+
 ## Measurement (InfluxDB 2.x)
 
 Provide configuration to InfluxDB 2.x to measure the number of sent emails (`type=Success`), validation issues (`type=Invalid`) and failures `type=Failure`.
@@ -128,17 +139,6 @@ from(bucket: v.defaultBucket)
   |> group(columns: ["type"])
   |> aggregateWindow(every: 1m, fn: sum, createEmpty: false)
   |> yield(name: "sum")
-```
-
-### Ping
-
-Send a `GET` request to `http://SERVER`, you will receive the JSON response similar to the one below:
-
-```
-{
-    "name": "RestSMTP",
-    "version": "1.0.4"
-}
 ```
 
 # TODOs (Accepting pull requests)
