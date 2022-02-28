@@ -23,10 +23,10 @@ else
 
 builder.Services.AddOptions<SMTPSettings>()
     .Bind(builder.Configuration.GetSection("SMTP"))
-    .Validate(x => !string.IsNullOrWhiteSpace(x.Host), "Missing host")
-    .Validate(x => x.Port > 0, "Missing port")
-    .Validate(x => !string.IsNullOrWhiteSpace(x.Username), "Missing username")
-    .Validate(x => !string.IsNullOrWhiteSpace(x.Password), "Missing password")
+    .Validate(x => !string.IsNullOrWhiteSpace(x.Host), "Missing SMTP:Host")
+    .Validate(x => x.Port > 0, "Missing SMTP:Port")
+    .Validate(x => !string.IsNullOrWhiteSpace(x.Username), "Missing SMTP:Username")
+    .Validate(x => !string.IsNullOrWhiteSpace(x.Password), "Missing SMTP:Password")
     .ValidateOnStart();
 
 builder.Services.AddSingleton<Service>();
