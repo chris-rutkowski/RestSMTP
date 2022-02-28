@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Mail;
 using Microsoft.Extensions.Options;
 using RestSMTP.Dtos;
+using RestSMTP.Measurement;
 
 namespace RestSMTP
 {
@@ -11,13 +12,16 @@ namespace RestSMTP
     {
         private readonly SmtpClient _client;
         private readonly ILogger<Service> _logger;
+        private readonly IMeasurementService _measurementService;
         private readonly SMTPSettings _smtpSettings;
 
         public Service(
             ILogger<Service> logger,
+            IMeasurementService measurementService,
             IOptions<SMTPSettings> smtpSettings)
         {
             _logger = logger;
+            _measurementService = measurementService;
             _smtpSettings = smtpSettings.Value;
 
             _client = new SmtpClient
@@ -51,7 +55,10 @@ namespace RestSMTP
         public async Task Send(EmailDto dto)
         {
             if (!ValidateDto(dto))
+            {
+                _ = _measurementService.CountEmailResult(EmailResultType.Invalid);
                 throw new ValidationException();
+            }
 
             var message = new MailMessage();
             message.From = new MailAddress(dto.FromEmail!, dto.FromName);
@@ -66,10 +73,12 @@ namespace RestSMTP
             try
             {
                 await _client.SendMailAsync(message);
+                _ = _measurementService.CountEmailResult(EmailResultType.Success);
                 _logger.LogInformation($"Sent `{message.Subject}`.");
             }
             catch (Exception e)
             {
+                _ = _measurementService.CountEmailResult(EmailResultType.Failure);
                 _logger.LogError(e, $"Error sending `{message.Subject}`.");
                 throw;
             }

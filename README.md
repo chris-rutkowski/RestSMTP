@@ -98,6 +98,38 @@ Send a `POST` request to `http://SERVER` with the following JSON request body ex
 - You can provide any name `FromName` and `FromEmail`, but e-mail spoofing, your e-mail may be classified as spam, your account blocked, domain blacklisted… The detailed headers of the e-mail can be used to track the original sender (e.g. user provided in the container's configuration).
 - If you intend to use RestSMTP as a public-facing contact form to yourself, I recommend using the same e-mail address in `SMTP:Username`, `FromEmail` and `To`. Put the provided sender's e-mail in `ReplyTo`.
 
+## Measurement (InfluxDB 2.x)
+
+Provide configuration to InfluxDB 2.x to measure number of sent emails, validation issues and failures.
+
+- `Influx2:Url`
+- `Influx2:Token` (needs write permission)
+- `Influx2:Organization`
+- `Influx2:Bucket`
+
+e.g.:
+
+```
+docker run -d -p 80:80 --name restsmtp --restart unless-stopped \
+  -e "Influx2:Url=http://localhost:8086" \
+  -e "Influx2:Token=TYPE_TOKEN" \
+  -e "Influx2:Organization=my-org" \
+  -e "Influx2:Bucket=restsmtp" \
+  chrisrkw/restsmtp:latest
+```
+
+### Grafana Flux query:
+
+```
+from(bucket: v.defaultBucket)
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["_measurement"] == "EmailResult")
+  |> filter(fn: (r) => r["_field"] == "count")
+  |> group(columns: ["type"])
+  |> aggregateWindow(every: 1m, fn: sum, createEmpty: false)
+  |> yield(name: "sum")
+```
+
 ### Ping
 
 Send a `GET` request to `http://SERVER`, you will receive the JSON response similar to the one below:
@@ -111,9 +143,8 @@ Send a `GET` request to `http://SERVER`, you will receive the JSON response simi
 
 # TODOs (Accepting pull requests)
 
-- de-duplication
+- de-duplication (Queue for e-mails being currently sent -> return active task, and keep in memory for short time to avoid sending again)
 - priority, quotas (although it should be a separate mail balancer service)
-- usage (e.g. influx)
 
 # Some commands useful for local development
 
