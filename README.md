@@ -100,7 +100,7 @@ Send a `POST` request to `http://SERVER` with the following JSON request body ex
 
 ## Measurement (InfluxDB 2.x)
 
-Provide configuration to InfluxDB 2.x to measure number of sent emails, validation issues and failures.
+Provide configuration to InfluxDB 2.x to measure the number of sent emails (`type=Success`), validation issues (`type=Invalid`) and failures `type=Failure`.
 
 - `Influx2:Url`
 - `Influx2:Token` (needs write permission)
